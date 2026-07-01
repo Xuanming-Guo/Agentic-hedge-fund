@@ -27,8 +27,6 @@ Qwen Cloud Global AI Hackathon - **Track 3: Agent Society**.
 
 [![Full-system architecture diagram](docs/assets/architecture/full-system-architecture.svg)](docs/assets/architecture/full-system-architecture.svg)
 
-GitHub compresses very large Mermaid diagrams inline; open the SVG above for the readable zoomable version. The compact map below is the quick judge-facing overview.
-
 ```mermaid
 flowchart TB
   User["Reviewer browser"] --> Web["React dockable trading cockpit"]
@@ -55,7 +53,8 @@ flowchart TB
 
 The agents do not mutate financial state directly. They propose, debate, and explain actions; deterministic services own risk checks, compliance checks, broker routing, order-book matching, long/short accounting, replay persistence, and benchmark proof.
 
-Alibaba Cloud evidence in this repository is the deployment path and proof checklist: `infra/alibaba/`, `docker-compose.yml`, and `docs/ALIBABA_CLOUD_PROOF.md`. Irrefutable deployment proof still needs runtime artifacts from Alibaba ECS, such as a proof video, screenshots, `docker compose ps`, `/health`, and `/api/proof/qwen` output from the deployed host.
+## Video/Demo Link
+
 
 ## Repository Layout
 
@@ -109,7 +108,9 @@ Provider resolution is intentionally simple for submission clarity:
 1. If `DASHSCOPE_API_KEY` is present, the backend uses Qwen Cloud.
 2. If no Qwen key is present, the backend uses deterministic mock agents for offline tests and demo resilience.
 
-Refer to https://github.com/Xuanming-Guo/Agentic-hedge-fund/blob/main/docs/ALIBABA_CLOUD_PROOF.md for proof of Qwen Cloud Use
+Alibaba Cloud evidence in this repository is the deployment path and proof checklist: `infra/alibaba/`, `docker-compose.yml`, and `docs/ALIBABA_CLOUD_PROOF.md`.
+
+Refer to https://github.com/Xuanming-Guo/Agentic-hedge-fund/blob/main/docs/ALIBABA_CLOUD_PROOF.md for proof of Qwen Cloud Use in code
 
 ## Bundled Replay
 
