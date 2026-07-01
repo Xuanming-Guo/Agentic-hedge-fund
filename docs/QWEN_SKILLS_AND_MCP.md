@@ -1,7 +1,5 @@
 # Qwen Skills And MCP
 
-The Qwen Tool Gateway exposes deterministic platform capabilities as permissioned skills.
-
 Representative skills:
 
 - `market_get_snapshot`
