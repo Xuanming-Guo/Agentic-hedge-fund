@@ -1,0 +1,179 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2400" height="1650" viewBox="0 0 2400 1650" role="img" aria-labelledby="title desc">
+  <title id="title">Agentic Hedge Fund full-system architecture</title>
+  <desc id="desc">Zoomable architecture map linking Alibaba Cloud Docker runtime, React dashboard panels, FastAPI APIs, simulation core, Qwen agent society, tool gateway, MCP, governance, execution, order book fills, long-short ledger accounting, replay, and benchmark proof.</desc>
+  <defs>
+    <style>
+      .bg{fill:#07111f}
+      .cluster{fill:#0d1a2c;stroke:#28456f;stroke-width:2;rx:18}
+      .cluster-title{fill:#a9c7ff;font:bold 24px Arial,sans-serif}
+      .node{fill:#101f35;stroke:#5d7fb9;stroke-width:2;rx:12}
+      .node2{fill:#132845;stroke:#5bd7ff;stroke-width:2;rx:12}
+      .node3{fill:#18243b;stroke:#b58cff;stroke-width:2;rx:12}
+      .store{fill:#10281f;stroke:#36d399;stroke-width:2;rx:12}
+      .danger{fill:#2a1822;stroke:#ff6b8a;stroke-width:2;rx:12}
+      .text{fill:#eef5ff;font:18px Arial,sans-serif}
+      .small{fill:#b7c8e8;font:15px Arial,sans-serif}
+      .label{fill:#7dd3fc;font:bold 15px Arial,sans-serif}
+      .line{stroke:#6f8fca;stroke-width:2.4;fill:none;marker-end:url(#arrow)}
+      .line2{stroke:#36d399;stroke-width:2.4;fill:none;marker-end:url(#arrowGreen)}
+      .line3{stroke:#f59e0b;stroke-width:2.4;fill:none;marker-end:url(#arrowAmber)}
+      .note{fill:#071827;stroke:#456ba3;stroke-width:2;rx:14}
+    </style>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M2,2 L10,6 L2,10 Z" fill="#6f8fca"/>
+    </marker>
+    <marker id="arrowGreen" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M2,2 L10,6 L2,10 Z" fill="#36d399"/>
+    </marker>
+    <marker id="arrowAmber" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M2,2 L10,6 L2,10 Z" fill="#f59e0b"/>
+    </marker>
+  </defs>
+  <rect class="bg" x="0" y="0" width="2400" height="1650"/>
+  <text x="60" y="58" fill="#eef5ff" font-family="Arial,sans-serif" font-size="34" font-weight="700">Agentic Hedge Fund: Full-System Architecture</text>
+  <text x="60" y="90" class="small">Click/open this SVG directly in GitHub or a browser to zoom. Mermaid source: full-system-architecture.mmd.</text>
+
+  <rect class="cluster" x="45" y="125" width="375" height="410"/>
+  <text class="cluster-title" x="65" y="160">Alibaba Cloud / Docker Runtime</text>
+  <rect class="node2" x="70" y="185" width="320" height="42"/><text class="text" x="88" y="212">Alibaba ECS host / local Docker</text>
+  <rect class="node" x="70" y="242" width="320" height="42"/><text class="text" x="88" y="269">docker compose</text>
+  <rect class="node" x="70" y="299" width="150" height="42"/><text class="text" x="88" y="326">web</text>
+  <rect class="node" x="240" y="299" width="150" height="42"/><text class="text" x="258" y="326">api</text>
+  <rect class="store" x="70" y="356" width="150" height="42"/><text class="text" x="88" y="383">Postgres</text>
+  <rect class="store" x="240" y="356" width="150" height="42"/><text class="text" x="258" y="383">recordings</text>
+  <rect class="danger" x="70" y="413" width="320" height="42"/><text class="text" x="88" y="440">DASHSCOPE_API_KEY server-side</text>
+  <rect class="note" x="70" y="470" width="320" height="42"/><text class="small" x="88" y="496">infra/alibaba + proof checklist</text>
+
+  <rect class="cluster" x="455" y="125" width="440" height="620"/>
+  <text class="cluster-title" x="475" y="160">Frontend Trading Cockpit</text>
+  <rect class="node2" x="480" y="185" width="390" height="42"/><text class="text" x="498" y="212">React dashboard + dockable workspace</text>
+  <rect class="node" x="480" y="242" width="185" height="38"/><text class="small" x="498" y="266">Market Replay Candles</text>
+  <rect class="node" x="685" y="242" width="185" height="38"/><text class="small" x="703" y="266">Order Book</text>
+  <rect class="node" x="480" y="295" width="185" height="38"/><text class="small" x="498" y="319">Portfolio + fills</text>
+  <rect class="node" x="685" y="295" width="185" height="38"/><text class="small" x="703" y="319">Agent Society Live</text>
+  <rect class="node" x="480" y="348" width="185" height="38"/><text class="small" x="498" y="372">Agent Workbench</text>
+  <rect class="node" x="685" y="348" width="185" height="38"/><text class="small" x="703" y="372">Candidate Slate</text>
+  <rect class="node" x="480" y="401" width="185" height="38"/><text class="small" x="498" y="425">Released Events</text>
+  <rect class="node" x="685" y="401" width="185" height="38"/><text class="small" x="703" y="425">Agent Runtime</text>
+  <rect class="node" x="480" y="454" width="185" height="38"/><text class="small" x="498" y="478">Investment Committee</text>
+  <rect class="node" x="685" y="454" width="185" height="38"/><text class="small" x="703" y="478">Benchmark</text>
+  <rect class="node" x="480" y="507" width="185" height="38"/><text class="small" x="498" y="531">Decision Flow</text>
+  <rect class="node" x="685" y="507" width="185" height="38"/><text class="small" x="703" y="531">Simulations modal</text>
+  <rect class="node" x="480" y="560" width="390" height="42"/><text class="text" x="498" y="587">REST controls + WebSocket snapshots</text>
+  <rect class="node" x="480" y="617" width="390" height="42"/><text class="text" x="498" y="644">Replay keyframes, lazy full frames, details</text>
+  <rect class="node" x="480" y="674" width="390" height="42"/><text class="text" x="498" y="701">Run live/replay benchmark proof</text>
+
+  <rect class="cluster" x="930" y="125" width="410" height="500"/>
+  <text class="cluster-title" x="950" y="160">FastAPI Public API</text>
+  <rect class="node2" x="955" y="185" width="360" height="40"/><text class="text" x="973" y="211">/api/simulations controls</text>
+  <rect class="node" x="955" y="238" width="360" height="40"/><text class="text" x="973" y="264">/api/ws/simulations/{id}</text>
+  <rect class="node" x="955" y="291" width="360" height="40"/><text class="text" x="973" y="317">/api/recordings keyframes / frames</text>
+  <rect class="node" x="955" y="344" width="360" height="40"/><text class="text" x="973" y="370">/api/*/agent-activity</text>
+  <rect class="node" x="955" y="397" width="360" height="40"/><text class="text" x="973" y="423">/api/*/benchmark</text>
+  <rect class="node" x="955" y="450" width="360" height="40"/><text class="text" x="973" y="476">/api/proof/qwen</text>
+  <rect class="node" x="955" y="503" width="360" height="40"/><text class="text" x="973" y="529">/api/mcp/status</text>
+  <rect class="node" x="955" y="556" width="360" height="40"/><text class="text" x="973" y="582">/api/skills and skill calls</text>
+
+  <rect class="cluster" x="1380" y="125" width="430" height="550"/>
+  <text class="cluster-title" x="1400" y="160">Simulation Core</text>
+  <rect class="node2" x="1405" y="185" width="380" height="42"/><text class="text" x="1423" y="212">SimulationEngine</text>
+  <rect class="node" x="1405" y="242" width="380" height="38"/><text class="small" x="1423" y="266">market clock + scenario</text>
+  <rect class="node" x="1405" y="293" width="380" height="38"/><text class="small" x="1423" y="317">synthetic/yfinance/Alpaca bars</text>
+  <rect class="node" x="1405" y="344" width="380" height="38"/><text class="small" x="1423" y="368">point-in-time released events</text>
+  <rect class="node" x="1405" y="395" width="380" height="38"/><text class="small" x="1423" y="419">candidate slate + sector exposure</text>
+  <rect class="node" x="1405" y="446" width="380" height="38"/><text class="small" x="1423" y="470">deterministic order books</text>
+  <rect class="node" x="1405" y="497" width="380" height="38"/><text class="small" x="1423" y="521">portfolio history time series</text>
+  <rect class="store" x="1405" y="548" width="380" height="38"/><text class="small" x="1423" y="572">RecordingService: manifest, frames, keyframes</text>
+  <rect class="node" x="1405" y="599" width="380" height="38"/><text class="small" x="1423" y="623">Benchmark engine: ASAI + baselines</text>
+
+  <rect class="cluster" x="1850" y="125" width="500" height="690"/>
+  <text class="cluster-title" x="1870" y="160">Qwen Agent Society</text>
+  <rect class="node2" x="1875" y="185" width="450" height="42"/><text class="text" x="1893" y="212">Qwen model router + structured JSON</text>
+  <rect class="node" x="1875" y="242" width="210" height="38"/><text class="small" x="1893" y="266">Qwen Cloud API</text>
+  <rect class="node" x="2115" y="242" width="210" height="38"/><text class="small" x="2133" y="266">mock fallback</text>
+  <rect class="node" x="1875" y="303" width="210" height="38"/><text class="small" x="1893" y="327">CoordinatorAgent</text>
+  <rect class="node" x="2115" y="303" width="210" height="38"/><text class="small" x="2133" y="327">MacroAnalystAgent</text>
+  <rect class="node" x="1875" y="354" width="210" height="38"/><text class="small" x="1893" y="378">TechnicalAnalystAgent</text>
+  <rect class="node" x="2115" y="354" width="210" height="38"/><text class="small" x="2133" y="378">SentimentNewsAnalyst</text>
+  <rect class="node" x="1875" y="405" width="210" height="38"/><text class="small" x="1893" y="429">BullResearcherAgent</text>
+  <rect class="node" x="2115" y="405" width="210" height="38"/><text class="small" x="2133" y="429">BearResearcherAgent</text>
+  <rect class="node" x="1875" y="456" width="210" height="38"/><text class="small" x="1893" y="480">ResearchManagerAgent</text>
+  <rect class="node" x="2115" y="456" width="210" height="38"/><text class="small" x="2133" y="480">PortfolioManagerAgent</text>
+  <rect class="node" x="1875" y="507" width="210" height="38"/><text class="small" x="1893" y="531">RiskManagerAgent</text>
+  <rect class="node" x="2115" y="507" width="210" height="38"/><text class="small" x="2133" y="531">ComplianceOfficer</text>
+  <rect class="node" x="1875" y="558" width="210" height="38"/><text class="small" x="1893" y="582">InvestmentCommittee</text>
+  <rect class="node" x="2115" y="558" width="210" height="38"/><text class="small" x="2133" y="582">ExecutionTraderAgent</text>
+  <rect class="node" x="1875" y="609" width="450" height="38"/><text class="small" x="1893" y="633">DemoNarratorAgent</text>
+  <rect class="note" x="1875" y="665" width="450" height="80"/><text class="small" x="1893" y="694">Agents propose, debate, and explain.</text><text class="small" x="1893" y="720">Services enforce all state transitions.</text>
+
+  <rect class="cluster" x="45" y="810" width="640" height="430"/>
+  <text class="cluster-title" x="65" y="845">Tool Gateway + MCP</text>
+  <rect class="node2" x="70" y="870" width="590" height="42"/><text class="text" x="88" y="897">Qwen Tool Gateway + permissioned skill registry</text>
+  <rect class="node" x="70" y="927" width="280" height="38"/><text class="small" x="88" y="951">market_get_context</text>
+  <rect class="node" x="380" y="927" width="280" height="38"/><text class="small" x="398" y="951">released_events</text>
+  <rect class="node" x="70" y="978" width="280" height="38"/><text class="small" x="88" y="1002">orderbook_get_depth</text>
+  <rect class="node" x="380" y="978" width="280" height="38"/><text class="small" x="398" y="1002">portfolio_get_state</text>
+  <rect class="node" x="70" y="1029" width="280" height="38"/><text class="small" x="88" y="1053">risk_check_order</text>
+  <rect class="node" x="380" y="1029" width="280" height="38"/><text class="small" x="398" y="1053">compliance_check_evidence</text>
+  <rect class="node" x="70" y="1080" width="280" height="38"/><text class="small" x="88" y="1104">broker_route_approved_order</text>
+  <rect class="node" x="380" y="1080" width="280" height="38"/><text class="small" x="398" y="1104">benchmark_run</text>
+  <rect class="node3" x="70" y="1137" width="590" height="42"/><text class="text" x="88" y="1164">Local MCP servers: market, portfolio/risk, compliance, benchmark</text>
+
+  <rect class="cluster" x="725" y="810" width="820" height="610"/>
+  <text class="cluster-title" x="745" y="845">Governance + Execution + Long/Short Ledger</text>
+  <rect class="node2" x="750" y="870" width="360" height="42"/><text class="text" x="768" y="897">PortfolioAllocationProposal</text>
+  <rect class="node" x="1155" y="870" width="360" height="42"/><text class="text" x="1173" y="897">RiskService resize/approve/reject</text>
+  <rect class="node" x="750" y="935" width="360" height="42"/><text class="text" x="768" y="962">Compliance: evidence + future firewall</text>
+  <rect class="node" x="1155" y="935" width="360" height="42"/><text class="text" x="1173" y="962">Committee approve/resize/defer/no_trade</text>
+  <rect class="node" x="750" y="1000" width="360" height="42"/><text class="text" x="768" y="1027">BrokerService route validation</text>
+  <rect class="node" x="1155" y="1000" width="360" height="42"/><text class="text" x="1173" y="1027">Marketable IOC child order</text>
+  <rect class="node" x="750" y="1065" width="360" height="42"/><text class="text" x="768" y="1092">LimitOrderBook exchange</text>
+  <rect class="node" x="1155" y="1065" width="360" height="42"/><text class="text" x="1173" y="1092">Sweep asks for buys / bids for sells</text>
+  <rect class="node" x="750" y="1130" width="360" height="42"/><text class="text" x="768" y="1157">filled / partial / unfilled</text>
+  <rect class="store" x="1155" y="1130" width="360" height="42"/><text class="text" x="1173" y="1157">PortfolioLedger.apply_fill</text>
+  <rect class="node" x="750" y="1195" width="360" height="66"/><text class="small" x="768" y="1221">Buy opens/increases long</text><text class="small" x="768" y="1245">or covers/reduces short</text>
+  <rect class="node" x="1155" y="1195" width="360" height="66"/><text class="small" x="1173" y="1221">Sell reduces/closes long</text><text class="small" x="1173" y="1245">or opens/increases short</text>
+  <rect class="store" x="750" y="1285" width="765" height="60"/><text class="text" x="768" y="1322">PortfolioState: cash, equity, positions, realized/unrealized PnL, gross/net exposure</text>
+
+  <rect class="cluster" x="1585" y="850" width="765" height="390"/>
+  <text class="cluster-title" x="1605" y="885">Replay + Benchmark Proof</text>
+  <rect class="store" x="1610" y="910" width="345" height="42"/><text class="text" x="1628" y="937">manifest.json</text>
+  <rect class="store" x="1980" y="910" width="345" height="42"/><text class="text" x="1998" y="937">frames.ndjson</text>
+  <rect class="store" x="1610" y="975" width="345" height="42"/><text class="text" x="1628" y="1002">activity_details.json</text>
+  <rect class="store" x="1980" y="975" width="345" height="42"/><text class="text" x="1998" y="1002">skill_call_details.json</text>
+  <rect class="node" x="1610" y="1040" width="345" height="42"/><text class="text" x="1628" y="1067">GET keyframes first</text>
+  <rect class="node" x="1980" y="1040" width="345" height="42"/><text class="text" x="1998" y="1067">lazy full frames</text>
+  <rect class="node2" x="1610" y="1105" width="715" height="42"/><text class="text" x="1628" y="1132">Benchmark: multi_agent vs single_agent + ASAI</text>
+  <rect class="node" x="1610" y="1170" width="715" height="42"/><text class="text" x="1628" y="1197">Track 3 Agent Society proof</text>
+
+  <path class="line" d="M390 320 C430 320,430 206,480 206"/>
+  <path class="line" d="M870 581 C900 581,900 205,955 205"/>
+  <path class="line" d="M1315 205 C1360 205,1360 206,1405 206"/>
+  <path class="line2" d="M1785 206 C1820 206,1820 206,1875 206"/>
+  <path class="line" d="M1595 637 C1595 740,365 740,365 870"/>
+  <path class="line3" d="M2100 647 C2100 770,930 770,930 870"/>
+  <path class="line2" d="M1110 891 L1155 891"/>
+  <path class="line2" d="M1335 912 C1335 930,930 918,930 935"/>
+  <path class="line2" d="M930 977 L930 1000"/>
+  <path class="line2" d="M1110 1021 L1155 1021"/>
+  <path class="line2" d="M1335 1042 C1335 1058,930 1050,930 1065"/>
+  <path class="line2" d="M1110 1086 L1155 1086"/>
+  <path class="line2" d="M1335 1107 C1335 1122,930 1115,930 1130"/>
+  <path class="line2" d="M1110 1151 L1155 1151"/>
+  <path class="line2" d="M930 1172 L930 1195"/>
+  <path class="line2" d="M1335 1172 L1335 1195"/>
+  <path class="line2" d="M930 1261 L930 1285"/>
+  <path class="line2" d="M1335 1261 L1335 1285"/>
+  <path class="line" d="M1515 1315 C1580 1315,1580 1126,1610 1126"/>
+  <path class="line" d="M1785 567 C1880 567,1880 820,1980 910"/>
+  <path class="line" d="M1665 599 C1665 720,1783 720,1783 910"/>
+  <path class="line" d="M1405 446 C1110 446,1110 261,870 261"/>
+  <path class="line" d="M1405 395 C1180 395,1180 420,870 420"/>
+  <path class="line" d="M1405 497 C1180 497,1180 314,665 314"/>
+  <path class="line" d="M1320 891 C1500 891,1660 745,1875 640"/>
+
+  <rect class="note" x="60" y="1450" width="2280" height="120"/>
+  <text class="text" x="90" y="1490">How to read this:</text>
+  <text class="small" x="90" y="1520">The dashboard sends REST controls and receives WebSocket/replay snapshots. Qwen agents produce structured JSON and tool calls, but deterministic services enforce risk, compliance, broker routing, order-book matching, fills, long/short accounting, replay persistence, and benchmark proof.</text>
+  <text class="small" x="90" y="1548">Irrefutable Alibaba deployment proof still requires runtime ECS artifacts: console/video, docker compose ps, deployed /health, deployed /api/proof/qwen, and dashboard screenshots.</text>
+</svg>

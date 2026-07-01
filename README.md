@@ -23,215 +23,34 @@ Qwen Cloud Global AI Hackathon - **Track 3: Agent Society**.
 
 ## Architecture
 
+[Open full-size architecture diagram](docs/assets/architecture/full-system-architecture.svg)
+
+[![Full-system architecture diagram](docs/assets/architecture/full-system-architecture.svg)](docs/assets/architecture/full-system-architecture.svg)
+
+GitHub compresses very large Mermaid diagrams inline; open the SVG above for the readable zoomable version. The compact map below is the quick judge-facing overview.
+
 ```mermaid
 flowchart TB
-  User["Reviewer / trader browser"]
-
-  subgraph Alibaba["Alibaba Cloud / Docker Runtime"]
-    ECS["Alibaba ECS host or local Docker host"]
-    Compose["docker compose: web + api + postgres"]
-    APIContainer["FastAPI container"]
-    WebContainer["React/Vite web container"]
-    Postgres[("PostgreSQL")]
-    RecVolume[("simulation-recordings volume")]
-    Env["DASHSCOPE_API_KEY server-side only"]
-    ProofDocs["infra/alibaba + docs/ALIBABA_CLOUD_PROOF.md"]
-  end
-
-  subgraph Frontend["Frontend Trading Cockpit"]
-    Web["React dashboard shell"]
-    Controls["Start / pause / resume / step / speed / stop-save"]
-    SimModal["Simulations modal and replay picker"]
-    Candles["Market Replay Candles"]
-    OrderBookPanel["Order Book panel"]
-    PortfolioPanel["Portfolio panel: cash, positions, PnL, exposure, fills"]
-    AgentLive["Agent Society Live"]
-    Workbench["Agent Workbench: states, decisions, debate"]
-    CandidatePanel["Candidate Slate"]
-    ReleasedEvents["Released Events"]
-    RuntimePanel["Agent Runtime"]
-    CommitteePanel["Investment Committee"]
-    BenchmarkPanel["Agent Society Benchmark: multi_agent vs single_agent"]
-    DecisionFlow["Agent Decision Flow"]
-  end
-
-  subgraph API["FastAPI Public API"]
-    Rest["REST controls and replay endpoints"]
-    WS["WebSocket snapshots"]
-    QwenProof["/api/proof/qwen"]
-    MCPStatus["/api/mcp/status"]
-    SkillCalls["/api/skills/calls"]
-    ReplayAPI["/api/recordings: list, keyframes, frames, resume"]
-    BenchAPI["/api/simulations/{id}/benchmark and /api/recordings/{id}/benchmark"]
-  end
-
-  subgraph Core["Simulation Core"]
-    Engine["Simulation Engine"]
-    MarketBundle["Market data bundle: synthetic, yfinance, Alpaca optional"]
-    EventClock["Point-in-time event release clock"]
-    Slate["Candidate slate: rank, role, hold reason, sector exposure"]
-    Recorder["Recording service: manifest, frames.ndjson, keyframes"]
-    FixtureSeed["Bundled replay fixture: Example Full Day Simulation 11th June 2025"]
-    Bench["Benchmark engine and ASAI"]
-  end
-
-  subgraph Society["Qwen Agent Society"]
-    Router["Qwen model router"]
-    Qwen["Qwen Cloud structured JSON API"]
-    Mock["Deterministic mock fallback"]
-    Coordinator["CoordinatorAgent"]
-    Macro["MacroAnalystAgent"]
-    Technical["TechnicalAnalystAgent"]
-    Sentiment["SentimentNewsAnalystAgent"]
-    Bull["BullResearcherAgent"]
-    Bear["BearResearcherAgent"]
-    ResearchMgr["ResearchManagerAgent"]
-    PM["PortfolioManagerAgent"]
-    RiskAgent["RiskManagerAgent"]
-    ComplianceAgent["ComplianceOfficerAgent"]
-    Chair["InvestmentCommitteeChairAgent"]
-    Trader["ExecutionTraderAgent"]
-    Narrator["DemoNarratorAgent"]
-  end
-
-  subgraph Tools["Tool Gateway + MCP"]
-    Gateway["Qwen Tool Gateway"]
-    MCP["Local MCP servers"]
-    MarketSkill["market data + released events"]
-    OrderBookSkill["orderbook depth + imbalance"]
-    PortfolioSkill["portfolio, exposure, PnL"]
-    RiskSkill["risk limits and sizing"]
-    ComplianceSkill["evidence relevance + future-data firewall"]
-    BrokerSkill["broker validation and route approval"]
-    BenchmarkSkill["benchmark and ablation tools"]
-  end
-
-  subgraph Governance["Governance + Execution"]
-    RiskSvc["RiskService: resize or reject"]
-    ComplianceSvc["ComplianceService: evidence and leakage checks"]
-    CommitteeSvc["InvestmentCommitteeService: approve, resize, defer, reject"]
-    BrokerSvc["BrokerService: accepted or rejected route"]
-    IOC["Marketable IOC child order"]
-    Exchange["Deterministic limit-order-book exchange"]
-    Sweep["Sweep visible asks for buys or bids for sells"]
-    Fill["filled / partially_filled / unfilled"]
-    Ledger["PortfolioLedger"]
-    LongShort["Buy opens/increases long or covers short; sell reduces/closes long or opens/increases short"]
-    PortfolioState["Cash, equity, positions, realized PnL, unrealized PnL, gross/net exposure"]
-  end
-
-  User --> WebContainer --> Web
-  ECS --> Compose
-  Compose --> APIContainer
-  Compose --> WebContainer
-  Compose --> Postgres
-  Compose --> RecVolume
-  Env --> APIContainer
-  ProofDocs --> ECS
-
-  Web --> Controls
-  Web --> SimModal
-  Web --> Candles
-  Web --> OrderBookPanel
-  Web --> PortfolioPanel
-  Web --> AgentLive
-  Web --> Workbench
-  Web --> CandidatePanel
-  Web --> ReleasedEvents
-  Web --> RuntimePanel
-  Web --> CommitteePanel
-  Web --> BenchmarkPanel
-  Web --> DecisionFlow
-
-  Controls -- "REST" --> Rest
-  SimModal -- "replay open / resume" --> ReplayAPI
-  Web -- "WebSocket snapshots" --> WS
-  BenchmarkPanel -- "run benchmark" --> BenchAPI
-  RuntimePanel --> QwenProof
-  Workbench --> SkillCalls
-  AgentLive --> SkillCalls
-
-  Rest --> Engine
-  WS --> Engine
-  ReplayAPI --> Recorder
-  BenchAPI --> Bench
-  QwenProof --> Qwen
-  MCPStatus --> MCP
-  SkillCalls --> Gateway
-  Engine --> MarketBundle
-  Engine --> EventClock
-  Engine --> Slate
-  Engine --> Recorder
-  FixtureSeed --> Recorder
-  Recorder --> RecVolume
-  Engine --> Postgres
-
-  Engine --> Coordinator --> Slate
-  Slate --> Macro
-  Slate --> Technical
-  Slate --> Sentiment
-  Macro --> ResearchMgr
-  Technical --> ResearchMgr
-  Sentiment --> ResearchMgr
-  Bull --> ResearchMgr
-  Bear --> ResearchMgr
-  ResearchMgr --> PM
-  PM --> RiskAgent --> ComplianceAgent --> Chair --> Trader
-  Narrator --> BenchmarkPanel
-
-  Coordinator --> Router
-  Macro --> Router
-  Technical --> Router
-  Sentiment --> Router
-  Bull --> Router
-  Bear --> Router
-  ResearchMgr --> Router
-  PM --> Router
-  RiskAgent --> Router
-  ComplianceAgent --> Router
-  Chair --> Router
-  Trader --> Router
-  Router --> Qwen
-  Router --> Mock
-
-  Macro -- "tool calls" --> Gateway
-  Technical -- "tool calls" --> Gateway
-  Sentiment -- "tool calls" --> Gateway
-  ResearchMgr -- "tool calls" --> Gateway
-  PM -- "tool calls" --> Gateway
-  RiskAgent -- "tool calls" --> Gateway
-  ComplianceAgent -- "tool calls" --> Gateway
-  Trader -- "tool calls" --> Gateway
-  Gateway --> MCP
-  Gateway --> MarketSkill
-  Gateway --> OrderBookSkill
-  Gateway --> PortfolioSkill
-  Gateway --> RiskSkill
-  Gateway --> ComplianceSkill
-  Gateway --> BrokerSkill
-  Gateway --> BenchmarkSkill
-
-  PM -- "TradeProposal basket" --> RiskSvc
-  RiskSvc --> ComplianceSvc
-  ComplianceSvc --> CommitteeSvc
-  CommitteeSvc --> BrokerSvc
-  BrokerSvc --> IOC
-  IOC --> Exchange
-  Exchange --> Sweep
-  Sweep --> Fill
-  Fill --> Ledger
-  Ledger --> LongShort
-  LongShort --> PortfolioState
-  PortfolioState --> PortfolioPanel
-  Exchange --> OrderBookPanel
-  MarketBundle --> Candles
-  EventClock --> ReleasedEvents
-  Slate --> CandidatePanel
-  Bench --> BenchmarkPanel
-  Recorder --> DecisionFlow
-  Recorder --> AgentLive
-  Recorder --> Workbench
-  Recorder --> RuntimePanel
+  User["Reviewer browser"] --> Web["React dockable trading cockpit"]
+  Web --> Panels["Candles, order book, portfolio, agent live, workbench, committee, benchmark"]
+  Web -- "REST controls" --> API["FastAPI API"]
+  Web -- "WebSocket snapshots" --> API
+  API --> Engine["Simulation Engine"]
+  API --> Replay["Recording + replay keyframes"]
+  API --> Proof["Qwen, MCP, skills, Alibaba proof endpoints"]
+  Engine --> Society["Qwen Agent Society"]
+  Society --> Agents["Coordinator, analysts, bull/bear, PM, risk, compliance, committee, trader, narrator"]
+  Society --> Tools["Qwen Tool Gateway + MCP skills"]
+  Tools --> Governance["Risk + compliance + broker + committee"]
+  Governance --> Execution["Marketable IOC order -> order book sweep -> fill/partial/unfilled"]
+  Execution --> Ledger["PortfolioLedger long/short accounting"]
+  Ledger --> Portfolio["cash, equity, positions, realized/unrealized PnL, exposure"]
+  Engine --> Benchmark["multi_agent vs single_agent ASAI benchmark"]
+  Engine --> Replay
+  Replay --> Web
+  Portfolio --> Web
+  Benchmark --> Web
+  Proof --> Runtime["Alibaba ECS / Docker Compose / Qwen Cloud proof surface"]
 ```
 
 The agents do not mutate financial state directly. They propose, debate, and explain actions; deterministic services own risk checks, compliance checks, broker routing, order-book matching, long/short accounting, replay persistence, and benchmark proof.
@@ -290,7 +109,7 @@ Provider resolution is intentionally simple for submission clarity:
 1. If `DASHSCOPE_API_KEY` is present, the backend uses Qwen Cloud.
 2. If no Qwen key is present, the backend uses deterministic mock agents for offline tests and demo resilience.
 
-Refer to `https://github.com/Xuanming-Guo/Agentic-hedge-fund/blob/main/docs/ALIBABA_CLOUD_PROOF.md` for proof of Qwen Cloud Use
+Refer to https://github.com/Xuanming-Guo/Agentic-hedge-fund/blob/main/docs/ALIBABA_CLOUD_PROOF.md for proof of Qwen Cloud Use
 
 ## Bundled Replay
 
