@@ -1,0 +1,5 @@
+from __future__ import annotations
+
+from app.services.investment_committee_service import InvestmentCommitteeService
+
+InvestmentCommitteeChairAgent = InvestmentCommitteeService

@@ -1,0 +1,6 @@
+max_gross_exposure_pct: 1.20
+max_net_exposure_pct: 1.00
+max_single_name_pct: 0.20
+max_order_notional_pct: 0.20
+elevated_volatility_threshold: 0.035
+human_approval_threshold_pct_equity: 0.15

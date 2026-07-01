@@ -1,0 +1,20 @@
+{
+  "mcpServers": {
+    "market-data": {
+      "command": "python",
+      "args": ["-m", "app.mcp_servers.market_data_server"]
+    },
+    "portfolio-risk": {
+      "command": "python",
+      "args": ["-m", "app.mcp_servers.portfolio_risk_server"]
+    },
+    "compliance": {
+      "command": "python",
+      "args": ["-m", "app.mcp_servers.compliance_server"]
+    },
+    "benchmark": {
+      "command": "python",
+      "args": ["-m", "app.mcp_servers.benchmark_server"]
+    }
+  }
+}

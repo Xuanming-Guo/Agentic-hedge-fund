@@ -1,0 +1,14 @@
+name: Docker
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: docker compose config
+      - run: docker build apps/api
+      - run: docker build apps/web

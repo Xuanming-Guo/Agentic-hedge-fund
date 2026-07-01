@@ -1,0 +1,30 @@
+{
+  "recording_id": "rec-b8852e8a-d4f0-47dc-93b3-928e1e9fa575",
+  "simulation_id": "sim-e82dff62-0850-40a7-9c9e-d6dddcd0ce32",
+  "name": "Example Full Day Simulation 11th June 2025",
+  "scenario_id": "actual-2025-06-11-MU-NVDA-AMD-CSCO-LLY-META-AMAT-JPM-XOM",
+  "scenario_title": "Actual market replay: MU, NVDA, AMD, CSCO, LLY, META, AMAT, JPM, XOM",
+  "status": "complete",
+  "duration_minutes": 390,
+  "simulated_start": "2025-06-11T09:25:00-04:00",
+  "simulated_end": "2025-06-11T15:55:00-04:00",
+  "created_at": "2026-07-01T17:31:41.099513Z",
+  "updated_at": "2026-07-01T18:13:18.296303Z",
+  "market_data_mode": "yfinance",
+  "tickers": [
+    "MU",
+    "NVDA",
+    "AMD",
+    "CSCO",
+    "LLY",
+    "META",
+    "AMAT",
+    "JPM",
+    "XOM"
+  ],
+  "frame_count": 2897,
+  "event_count": 120,
+  "last_frame_index": 2896,
+  "can_continue": false,
+  "summary": "Completed recorded simulation."
+}
