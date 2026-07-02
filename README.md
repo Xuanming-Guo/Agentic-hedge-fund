@@ -10,6 +10,14 @@ This is a simulation and education project only. It does not connect to a real b
 
 Qwen Cloud Global AI Hackathon - **Track 3: Agent Society**.
 
+## Inspiration
+
+I recently became a quant dev, which pushed me deeper into market microstructure, portfolio construction, execution logic, and the reality that trading decisions are rarely one-dimensional. At the same time, I have been getting more interested in AI agents and how far they can go beyond normal chat-style reasoning.
+
+One thing that bothered me is that normal AI does not really trade properly. A single model can sound confident, but it usually does not behave like a real desk: it does not separate research from risk, it does not debate opposing views, it does not enforce compliance, it does not reason about order-book liquidity, and it often jumps straight from "bullish" to "buy" without the controls that a real trading system would need.
+
+So I built Agentic Hedge Fund as an experiment: can a Qwen-powered agent society make better, safer, and more explainable simulated trading decisions than a normal single-agent AI trading setup? The project compares specialized agents against a `single_agent` baseline on the same replay so the extra complexity has to justify itself with measurable results.
+
 ## What The Demo Shows
 
 - A dockable trading dashboard with market replay candles, order book, portfolio, and optional agent/governance panels.
@@ -164,20 +172,29 @@ To demo it:
 
 ## Benchmark
 
-The Benchmark panel for comparison:
+The Benchmark panel makes the Agent Society comparison explicit:
 
 ```text
 multi_agent vs single_agent
 ```
 
-It reports:
+For the included full-day replay benchmark, the multi-agent society was scored across **516 replay keyframes** against a single-agent baseline.
 
-- Total return
-- Max drawdown
-- Risk violations
-- Directional accuracy
-- Decision quality
-- ASAI, the Agent Society Advantage Index
+Latest replay benchmark result:
+
+- **ASAI score:** 25.11
+- **Return delta:** +0.24 pts
+- **Risk avoided:** 2 fewer risk violations
+
+| Metric | multi_agent | single_agent |
+|---|---:|---:|
+| Return | 0.23% | -0.00% |
+| Max drawdown | 0.65% | 1.35% |
+| Risk violations | 0 | 2 |
+| Directional accuracy | 78% | 67% |
+| Decision quality | 100% | 82% |
+
+The result I cared about was not only return. The agent society also showed lower drawdown, fewer risk violations, higher directional accuracy, and better decision quality on the replay benchmark.
 
 ```text
 POST /api/recordings/{recording_id}/benchmark
