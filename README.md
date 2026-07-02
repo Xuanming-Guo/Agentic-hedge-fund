@@ -80,7 +80,10 @@ docs/                             Architecture, proof, deployment, demo, benchma
 ## Quickstart
 
 ```bash
+git clone https://github.com/Xuanming-Guo/Agentic-hedge-fund.git
+cd .\Agentic-hedge-fund\
 cp .env.example .env
+# Put your API key in DASHSCOPE_API_KEY
 docker compose up --build
 ```
 
@@ -92,6 +95,20 @@ Open:
 - MCP status: http://localhost:8000/api/mcp/status
 
 On startup, the API seeds the bundled replay fixture into `SIMULATION_RECORDINGS_DIR` if it is missing. Runtime-created recordings remain ignored by git.
+
+If the dashboard opens but the scenario list or saved simulations are empty, the API probably did not finish startup and the seed step did not run. Check:
+
+```bash
+curl http://localhost:8000/health
+docker compose logs api postgres
+```
+
+The API logs should show the database wait completing, Alembic migrations running, scenario seeding, and either the bundled replay being seeded or already present. If Docker networking was stale, restart the stack:
+
+```bash
+docker compose down --remove-orphans
+docker compose up --build
+```
 
 ## Qwen Cloud Setup
 

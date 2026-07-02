@@ -1,5 +1,8 @@
 from __future__ import annotations
 
+from pathlib import Path
+
+from app.core.config import get_settings
 from app.services.recording_fixtures import seed_recording_fixtures
 from app.services.synthetic_data import DATASET
 
@@ -27,8 +30,18 @@ def main() -> None:
 
     try:
         seeded_recordings = seed_recording_fixtures()
+        recordings_dir = Path(get_settings().simulation_recordings_dir)
         if seeded_recordings:
-            print(f"Seeded {len(seeded_recordings)} bundled replay recording(s).")
+            print(
+                "Seeded "
+                f"{len(seeded_recordings)} bundled replay recording(s) into {recordings_dir}: "
+                f"{', '.join(seeded_recordings)}"
+            )
+        else:
+            print(
+                "Bundled replay fixture already present or no fixture seed was needed "
+                f"in {recordings_dir}."
+            )
     except Exception as exc:
         print(f"Recording fixture seed skipped: {exc}")
 

@@ -113,6 +113,11 @@ function formatActionError(error: unknown) {
   return error instanceof Error ? error.message : 'The action failed. Please try again.';
 }
 
+function formatBackendLoadError(error: unknown) {
+  const detail = error instanceof Error ? error.message : 'API request failed.';
+  return `Backend unavailable: API did not finish startup. Check /health and docker compose logs api postgres. ${detail}`;
+}
+
 function parseTickerInput(value: string) {
   return value
     .split(/[\s,]+/)
@@ -217,6 +222,10 @@ export function DashboardPage() {
   }, [replayBenchmark, replaySnapshot]);
   const activeKeyframe = replayTimelineMode === 'actions' ? replayKeyframes[replayIndex] : null;
   const snapshot = mode === 'replay' ? replaySnapshotWithBenchmark : socket.snapshot ?? localSnapshot;
+  const scenarioOptions = scenarios.data?.scenarios ?? [];
+  const recordingOptions = recordings.data?.recordings ?? [];
+  const scenariosError = scenarios.isError ? formatBackendLoadError(scenarios.error) : null;
+  const recordingsError = recordings.isError ? formatBackendLoadError(recordings.error) : null;
   const symbolMeta = useMemo(() => {
     const instruments = snapshot?.instruments ?? [];
     if (instruments.length > 0) {
@@ -233,7 +242,7 @@ export function DashboardPage() {
     );
     return symbols.map((symbol) => ({ symbol, name: symbol }));
   }, [snapshot]);
-  const selectedScenario = scenarios.data?.scenarios.find((scenario) => scenario.id === scenarioId);
+  const selectedScenario = scenarioOptions.find((scenario) => scenario.id === scenarioId);
   const recordingDetailLoader = useMemo(() => {
     if (mode !== 'replay' || !activeRecording) return undefined;
     return {
@@ -732,20 +741,31 @@ export function DashboardPage() {
             <div className="panel-body launcher-panel">
               <label>
                 <span className="muted">Scenario</span>
+                {scenariosError && (
+                  <div className="inline-error" role="alert">
+                    <strong>Backend unavailable</strong>
+                    <span>{scenariosError}</span>
+                  </div>
+                )}
                   <select
                     className="select"
                     value={scenarioId}
+                    disabled={scenarios.isLoading || Boolean(scenariosError)}
                     onChange={(event) => {
                       const nextScenario = event.target.value;
                       setScenarioId(nextScenario);
                       setMarketDataMode(nextScenario === 'actual-market' ? 'yfinance' : 'synthetic');
                     }}
                   >
-                  {(scenarios.data?.scenarios ?? []).map((scenario) => (
-                    <option value={scenario.id} key={scenario.id}>
-                      {scenario.display_date} - {scenario.title}
-                    </option>
-                  ))}
+                  {scenarios.isLoading && <option value={scenarioId}>Loading scenarios...</option>}
+                  {scenariosError && <option value={scenarioId}>Scenarios unavailable</option>}
+                  {!scenarios.isLoading &&
+                    !scenariosError &&
+                    scenarioOptions.map((scenario) => (
+                      <option value={scenario.id} key={scenario.id}>
+                        {scenario.display_date} - {scenario.title}
+                      </option>
+                    ))}
                 </select>
               </label>
               <div>
@@ -845,7 +865,11 @@ export function DashboardPage() {
                     'Live recording waits for real LLM calls. Saved replays can be scrubbed and sped up instantly.'}
                 </p>
               </div>
-              <button className="btn primary" disabled={Boolean(pendingAction)} onClick={startRecordedSimulation}>
+              <button
+                className="btn primary"
+                disabled={Boolean(pendingAction) || Boolean(scenariosError) || scenarioOptions.length === 0}
+                onClick={startRecordedSimulation}
+              >
                 <Play size={16} />
                 Create recording
               </button>
@@ -855,10 +879,17 @@ export function DashboardPage() {
           <section className="panel">
             <h2>Saved Simulations</h2>
             <div className="panel-body recording-list">
-              {(recordings.data?.recordings ?? []).length === 0 ? (
+              {recordingsError ? (
+                <div className="inline-error" role="alert">
+                  <strong>Backend unavailable</strong>
+                  <span>{recordingsError}</span>
+                </div>
+              ) : recordings.isLoading ? (
+                <p className="muted">Loading saved simulations...</p>
+              ) : recordingOptions.length === 0 ? (
                 <p className="muted">No saved simulations yet. Create a recording to unlock instant replay.</p>
               ) : (
-                (recordings.data?.recordings ?? []).map((recording) => (
+                recordingOptions.map((recording) => (
                   <article className="recording-card" key={recording.recording_id}>
                     <div>
                       <div className="list-row tight">

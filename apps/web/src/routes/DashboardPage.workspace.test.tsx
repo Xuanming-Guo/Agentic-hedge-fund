@@ -173,6 +173,40 @@ afterEach(() => {
   vi.unstubAllGlobals();
 });
 
+async function enabledCreateRecordingButton() {
+  const button = await screen.findByRole('button', { name: /Create recording/i });
+  await waitFor(() => expect(button).toBeEnabled());
+  return button;
+}
+
+test('launcher explains backend startup failures instead of showing empty lists', async () => {
+  vi.stubGlobal(
+    'fetch',
+    vi.fn(async (input: RequestInfo | URL) => {
+      const url = String(input);
+      if (url.includes('/api/scenarios') || url.includes('/api/recordings')) {
+        return Response.json({ detail: 'connection refused' }, { status: 503, statusText: 'Unavailable' });
+      }
+      if (url.includes('/api/simulations/estimate')) {
+        return Response.json({ estimated_real_seconds: 8, warning: null });
+      }
+      return Response.json({});
+    })
+  );
+
+  const queryClient = new QueryClient({ defaultOptions: { queries: { retry: false } } });
+  render(
+    <QueryClientProvider client={queryClient}>
+      <DashboardPage />
+    </QueryClientProvider>
+  );
+
+  expect(await screen.findByText('Scenarios unavailable')).toBeInTheDocument();
+  expect(screen.getByRole('button', { name: /Create recording/i })).toBeDisabled();
+  const hints = await screen.findAllByText(/docker compose logs api postgres/i);
+  expect(hints).toHaveLength(2);
+});
+
 test('live dashboard defaults to core trading panels plus agent society live', async () => {
   render(
     <QueryClientProvider client={new QueryClient()}>
@@ -180,7 +214,7 @@ test('live dashboard defaults to core trading panels plus agent society live', a
     </QueryClientProvider>
   );
 
-  fireEvent.click(await screen.findByRole('button', { name: /Create recording/i }));
+  fireEvent.click(await enabledCreateRecordingButton());
 
   expect(await screen.findByRole('heading', { name: 'Market Replay Candles' })).toBeInTheDocument();
   expect(screen.getByRole('heading', { name: 'Order Book' })).toBeInTheDocument();
@@ -206,7 +240,7 @@ test('shows a simple spinner while create recording is pending', async () => {
     </QueryClientProvider>
   );
 
-  await screen.findByRole('button', { name: /Create recording/i });
+  const createButton = await enabledCreateRecordingButton();
   let resolveCreate = (response: Response) => {
     void response;
   };
@@ -230,7 +264,7 @@ test('shows a simple spinner while create recording is pending', async () => {
     return Response.json({});
   });
 
-  fireEvent.click(screen.getByRole('button', { name: /Create recording/i }));
+  fireEvent.click(createButton);
 
   expect(await screen.findByRole('status')).toHaveTextContent('Creating recorded simulation');
   expect(document.querySelector('.terminal-spinner')).not.toBeNull();
@@ -273,7 +307,7 @@ test('reconnects the live socket after an unexpected close', async () => {
     </QueryClientProvider>
   );
 
-  fireEvent.click(await screen.findByRole('button', { name: /Create recording/i }));
+  fireEvent.click(await enabledCreateRecordingButton());
 
   expect(await screen.findByText('connected')).toBeInTheDocument();
 

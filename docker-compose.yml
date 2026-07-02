@@ -33,7 +33,8 @@ services:
     volumes:
       - simulation-recordings:/app/recordings
     command: >
-      sh -c "alembic upgrade head &&
+      sh -c "python -m app.scripts.wait_for_db &&
+             alembic upgrade head &&
              python -m app.scripts.seed &&
              uvicorn app.main:app --host 0.0.0.0 --port 8000"
 

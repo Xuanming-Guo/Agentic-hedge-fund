@@ -1567,6 +1567,23 @@ body {
   flex: 1;
 }
 
+.inline-error {
+  background: rgba(255, 92, 122, 0.12);
+  border: 1px solid rgba(255, 92, 122, 0.38);
+  border-radius: 8px;
+  color: #ffd3dc;
+  display: grid;
+  gap: 0.25rem;
+  margin: 0.45rem 0 0.55rem;
+  padding: 0.65rem 0.75rem;
+}
+
+.inline-error span {
+  color: #f7a8bb;
+  font-size: 0.83rem;
+  line-height: 1.35;
+}
+
 .brand h1,
 .panel h2,
 strong {
