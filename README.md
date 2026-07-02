@@ -94,7 +94,7 @@ Open:
 - Qwen ping: http://localhost:8000/api/proof/qwen
 - MCP status: http://localhost:8000/api/mcp/status
 
-On startup, the API seeds the bundled replay fixture into `SIMULATION_RECORDINGS_DIR` if it is missing. Runtime-created recordings remain ignored by git.
+On startup, the API waits for Postgres, runs Alembic migrations, seeds scenarios, and seeds the bundled replay fixture into `SIMULATION_RECORDINGS_DIR` if it is missing. Runtime-created recordings remain ignored by git.
 
 If the dashboard opens but the scenario list or saved simulations are empty, the API probably did not finish startup and the seed step did not run. Check:
 
@@ -103,11 +103,25 @@ curl http://localhost:8000/health
 docker compose logs api postgres
 ```
 
-The API logs should show the database wait completing, Alembic migrations running, scenario seeding, and either the bundled replay being seeded or already present. If Docker networking was stale, restart the stack:
+The API logs should show `Database is reachable`, Alembic migrations running, scenario seeding, and either the bundled replay being seeded or already present. Seeing a few `Waiting for database` lines is normal during startup; it is only a problem if it never reaches `Database is reachable`.
+
+If Docker networking was stale, restart the stack:
 
 ```bash
 docker compose down --remove-orphans
 docker compose up --build
+```
+
+If you are testing two cloned copies on the same machine, give the clean clone a separate Compose project name so networks, containers, and volumes do not collide:
+
+```bash
+docker compose -p ahf-clean up --build
+```
+
+As a last resort after stopping this project and any other Compose projects you care about, prune unused Docker networks:
+
+```bash
+docker network prune
 ```
 
 ## Qwen Cloud Setup
