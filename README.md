@@ -29,6 +29,16 @@ So I built Agentic Hedge Fund as an experiment: can a Qwen-powered agent society
 - Replay keyframes for fast loading of full-day recordings.
 - Agent Society benchmark proof: `multi_agent` vs `single_agent`.
 
+### Requirements
+
+Before running the project, install:
+
+- **Git** for cloning the repository.
+- **Docker Desktop** or Docker Engine.
+- **Docker Compose v2**, available as `docker compose`.
+- A **Qwen Cloud DashScope API key** for live Qwen agent runs.
+
+
 ## Architecture
 
 [Open full-size architecture diagram](docs/assets/architecture/full-system-architecture.svg)
@@ -62,7 +72,7 @@ flowchart TB
 The agents do not mutate financial state directly. They propose, debate, and explain actions; deterministic services own risk checks, compliance checks, broker routing, order-book matching, long/short accounting, replay persistence, and benchmark proof.
 
 ## Video/Demo Link
-
+https://youtu.be/nzWGWwEkI68
 
 ## Repository Layout
 

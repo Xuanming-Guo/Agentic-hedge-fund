@@ -27,6 +27,7 @@ from app.services.simulation_engine import ENGINE
 
 router = APIRouter()
 logger = logging.getLogger(__name__)
+ESTIMATE_FIXED_BUFFER_SECONDS = 10 * 60
 
 
 class CreateSimulationRequest(BaseModel):
@@ -94,7 +95,9 @@ def _estimate_for(duration_minutes: int) -> SimulationEstimate:
     seconds_per_call = {"mock": 0.1, "qwen": 5.0}.get(provider, 5.0)
     market_tick_seconds = duration_minutes / 20.0
     estimated_real_seconds = int(
-        expected_cycles * calls_per_cycle * seconds_per_call + market_tick_seconds
+        expected_cycles * calls_per_cycle * seconds_per_call
+        + market_tick_seconds
+        + ESTIMATE_FIXED_BUFFER_SECONDS
     )
     return SimulationEstimate(
         duration_minutes=duration_minutes,
